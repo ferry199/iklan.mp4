@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player Promo</title>
+    <style>
+        /* Gaya tampilan pemutar video */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 600px;
+            background: #000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Gaya tombol play cadangan */
+        .play-btn-container {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+        }
+
+        button {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #e03e00;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <video id="video" preload="metadata" controls>
+            <source src="ssstwitter.com_1782649389379.mp4" type="video/mp4">
+            Browser Anda tidak mendukung pemutar video.
+        </video>
+    </div>
+
+    <div class="play-btn-container">
+        <button onclick="playVideo()">▶ Putar Video</button>
+    </div>
+
+    <script>
+        // --- PENGATURAN LOGIKA ---
+        const video = document.getElementById("video");
+        let adShown = false;
+        let userWentToShopee = false;
+        
+        // 2. GANTI LINK INI DENGAN LINK AFILIASI (SHOPEE/LAINNYA) ANDA
+        const linkAfiliasi = "https://s.shopee.co.id/6ffHBGqCbS"; 
+
+        function playVideo() {
+            video.play();
+        }
+
+        function showAd() {
+            // Membuka tab baru yang mengarah ke link afiliasi
+            window.open(linkAfiliasi, "_blank");
+            userWentToShopee = true;
+        }
+
+        // --- PENGATURAN WAKTU POPUP ---
+        video.addEventListener("timeupdate", () => {
+            // 3. GANTI ANGKA 60 DI BAWAH JIKA INGIN MENGUBAH WAKTU (DALAM DETIK)
+            if (video.currentTime >= 60 && !adShown) {
+                adShown = true;
+                showAd(); // Memanggil fungsi buka tab afiliasi
+            }
+        });
+
+        // --- PENGATURAN OTOMATIS LANJUT MEMUTAR ---
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) {
+                // Video otomatis berjalan lagi setelah user kembali dari tab afiliasi
+                video.play(); 
+                
+                if (userWentToShopee) {
+                    console.log("Penonton sudah kembali dari halaman sponsor.");
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
